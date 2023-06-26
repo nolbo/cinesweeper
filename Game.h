@@ -1,28 +1,50 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Position.h"
+
 class Game {
     private:
-        const int VIEW_UNVISIBLE;
-        const int VIEW_VISIBLE;
-        const int VIEW_FLAG;
+        static const int VIEW_UNVISIBLE = 0;
+        static const int VIEW_VISIBLE   = 1;
+        static const int VIEW_FLAG      = 2;
 
-        const int GROUND_VOID;
-        const int GROUND_MINESWEEPER;
-        const int GROUND_HINT1;
-        const int GROUND_HINT2;
-        const int GROUND_HINT3;
-        const int GROUND_HINT4;
-        const int GROUND_HINT5;
-        const int GROUND_HINT6;
-        const int GROUND_HINT7;
-        const int GROUND_HINT8;
+        static const int GROUND_MINESWEEPER = -1;
+        static const int GROUND_VOID        = 0;
+        static const int GROUND_HINT1       = 1;
+        static const int GROUND_HINT2       = 2;
+        static const int GROUND_HINT3       = 3;
+        static const int GROUND_HINT4       = 4;
+        static const int GROUND_HINT5       = 5;
+        static const int GROUND_HINT6       = 6;
+        static const int GROUND_HINT7       = 7;
+        static const int GROUND_HINT8       = 8;
 
-        const int GROUND_X_SIZE;
-        const int GROUND_Y_SIZE;
-
+        int x_size;
+        int y_size;
+        int numOfMinesweeper;
         int numOfFlag;
-        bool isGameEnded;
+        int **ground;
+        int **view;
+        double startTime;
+        bool gameEnded;
+        Position pos;
+
+    public:
+        Game(int y_size, int x_size, int numOfMinesweeper);
+        void createNewGround(int startY, int startX);
+        void printGround(int y = -1, int x = -1);
+        void printInfomationOfGame(int msgType);
+        void movePoint();
+        void willChangeGround();
+        void didChangeGround();
+        void setFlag();
+        void openTile();
+        void openVoidTile(int y, int x, int *_check);
+        void openAllTile(bool isWin);
+        bool isGameEnded();
+        void startGame();
+        ~Game();
 };
 
 #endif
