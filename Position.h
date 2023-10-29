@@ -10,6 +10,7 @@ class Position {
 
     public:
         Position();
+        Position(int _x, int _y);
         Position(int _maxX, int _maxY, int _x, int _y);
         int getX();
         int getY();
@@ -17,6 +18,8 @@ class Position {
         void setY(int _y);
         void moveX(int distance);
         void moveY(int distance);
+
+        bool Position::operator==(Position& pos);
 };
 
 #endif

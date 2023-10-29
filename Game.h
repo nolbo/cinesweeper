@@ -20,10 +20,16 @@ class Game {
         static const int GROUND_HINT7       = 7;
         static const int GROUND_HINT8       = 8;
 
+        static const int MSG_DEFAULT  = 0;
+        static const int MSG_WIN      = 1;
+        static const int MSG_GAMEOVER = 2;
+
         int x_size;
         int y_size;
         int numOfMinesweeper;
         int numOfFlag;
+        int playCount;
+        Position *posOfMinesweeper;
         int **ground;
         int **view;
         double startTime;
@@ -35,7 +41,8 @@ class Game {
         void createNewGround(int startY, int startX);
         void printGround(int y = -1, int x = -1);
         void printInfomationOfGame(int msgType);
-        void movePoint();
+        void keyDownEvent();
+        void movePoint(int vKey);
         void willChangeGround();
         void didChangeGround();
         void setFlag();
