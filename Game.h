@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "Position.h"
+#include <vector>
 
 class Game {
     private:
@@ -29,7 +30,7 @@ class Game {
         int numOfMinesweeper;
         int numOfFlag;
         int playCount;
-        Position *posOfMinesweeper;
+        std::vector<Position> posOfMinesweeper;
         int **ground;
         int **view;
         double startTime;
@@ -47,7 +48,7 @@ class Game {
         void didChangeGround();
         void setFlag();
         void openTile();
-        void openVoidTile(int y, int x, int *_check);
+        void openVoidTile(int y, int x, std::vector<Position> _check);
         void openAllTile(bool isWin);
         bool isGameEnded();
         void startGame();

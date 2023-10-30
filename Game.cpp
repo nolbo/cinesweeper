@@ -5,6 +5,7 @@
 #include <time.h>
 #include <windows.h>
 #include <string>
+#include <vector>
 #include <format>
 
 using namespace std;
@@ -71,7 +72,7 @@ void Game::createNewGround(int startY, int startX) {
 
             if (!isCrrPosInSrrPos) {
                 ground[y][x] = -1;
-                posOfMinesweeper[sizeof(posOfMinesweeper) / sizeof(*posOfMinesweeper)] = crrPos;
+                posOfMinesweeper.push_back(crrPos);
 
                 for (int i = ((y > 0) ? y - 1 : 0); i < ((y < y_size - 1) ? y + 2 : y_size); i ++) { // y축
                     for (int j = ((x > 0) ? x - 1 : 0); j < ((x < x_size - 1) ? x + 2 : x_size); j ++) { // x축
@@ -252,11 +253,78 @@ void Game::didChangeGround() {
 }
 
 void Game::setFlag() {
-    
+    willChangeGround();
+
+    if (view[pos.getY() - 1][pos.getX() - 1] != 1) {
+        if (view[pos.getY() - 1][pos.getX() - 1] == 2) {
+            view[pos.getY() - 1][pos.getX() - 1] = 0;
+        } else {
+            view[pos.getY() - 1][pos.getX() - 1] = 2;
+        }
+    }
+
+    didChangeGround();
 }
 
 void Game::openTile() {
+    willChangeGround();
 
+    if (view[pos.getY() - 1][pos.getX() - 1] != 1) {
+        if (view[pos.getY() - 1][pos.getX() - 1] == 2) {
+            view[pos.getY() - 1][pos.getX() - 1] = 0;
+        } else {
+            switch (ground[pos.getY() - 1][pos.getX() - 1]) {
+                case -1 :
+                    openAllTile(false);
+                    printGround();
+                    printInfomationOfGame(MSG_GAMEOVER);
+                    gameEnded = true;
+                    return;
+                case 0 :
+                    openVoidTile(pos.getY() - 1, pos.getX() - 1);
+                    break;
+                default :
+                    view[pos.getY() - 1][pos.getX() - 1] = 1;
+                    if (view[pos.getY() - 1][pos.getX() - 1] == 2) {
+                        view[pos.getY() -1][pos.getX() - 1] = 0;
+                    }
+            }
+        }
+    }
+}
+
+void Game::openVoidTile(int y, int x, vector<Position> _check = {}) {
+    vector<Position> check = _check;
+    check.push_back(Position(x, y));
+
+    if (ground[y][x] != 0) {
+        view[y][x] = 1;
+        return;
+    }
+    view[y][x] = 1;
+
+    Position recursionPos[9] = {
+        Position(y - 1, x - 1), Position(y - 1, x), Position(y - 1, x + 1), 
+        Position(y,     x - 1), Position(y,     x), Position(y,     x + 1), 
+        Position(y + 1, x - 1), Position(y + 1, x), Position(y + 1, x + 1)
+    };
+
+    for (Position srrPos : recursionPos) {
+        if ((srrPos.getY() > (y_size - 1) || srrPos.getY() < 0) || (srrPos.getX() > (x_size - 1)) || srrPos.getX() < 0) {
+            continue;
+        }
+        bool isSrrPosInCheck = false;
+
+        for (Position checkPos : check) {
+            if (srrPos == checkPos) {
+                isSrrPosInCheck = true;
+            }
+        }
+        if (isSrrPosInCheck) {
+            continue;
+        }
+        openVoidTile(srrPos.getY(), srrPos.getX(), check);
+    }
 }
 
 void Game::openAllTile(bool isWin) {
@@ -286,4 +354,9 @@ bool Game::isGameEnded() {
     }
     gameEnded = true;
     return true;
+}
+
+Game::~Game() {
+    delete ground;
+    delete view;
 }
