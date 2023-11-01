@@ -127,13 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\OneDrive\문서\GitHub\cinesweeper\Game.cpp" />
-    <ClCompile Include="..\..\..\..\OneDrive\문서\GitHub\cinesweeper\Position.cpp" />
     <ClCompile Include="cinesweeper.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Position.cpp" />
+    <ClCompile Include="Start.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\OneDrive\문서\GitHub\cinesweeper\Position.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="Start.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

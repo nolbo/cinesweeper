@@ -2,14 +2,15 @@
 #define GAME_H
 
 #include <vector>
+#include "Position.h"
 
-class Position;
 
 class Game {
     private:
         static const int VIEW_UNVISIBLE = 0;
         static const int VIEW_VISIBLE = 1;
         static const int VIEW_FLAG = 2;
+        static const int VIEW_QUESTION = 3;
 
         static const int GROUND_MINESWEEPER = -1;
         static const int GROUND_VOID = 0;
@@ -31,12 +32,12 @@ class Game {
         int numOfMinesweeper;
         int numOfFlag;
         int playCount;
-        std::vector<Position*> posOfMinesweeper;
+        std::vector<Position> posOfMinesweeper;
         int** ground;
         int** view;
         double startTime;
         bool gameEnded;
-        Position *pos;
+        Position pos;
 
     public:
         Game(int y_size, int x_size, int numOfMinesweeper);
@@ -47,9 +48,9 @@ class Game {
         void movePoint(int vKey);
         void willChangeGround();
         void didChangeGround();
-        void setFlag();
+        void setFin();
         void openTile();
-        void openVoidTile(int y, int x, std::vector<Position*> _check = {});
+        void openVoidTile(int y, int x);
         void openAllTile(bool isWin);
         bool isGameEnded();
         void startGame();
