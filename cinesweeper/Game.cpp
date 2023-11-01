@@ -48,24 +48,24 @@ Game::Game(int _x_size, int _y_size, int _numOfMinesweeper) {
     pos = Position((x_size + 1), (y_size + 1), (x_size + 1) / 2, (y_size + 1) / 2);
     posOfMinesweeper = {};
 
-    ground = new int* [y_size + 1];
+    map = new int* [y_size + 1];
     view = new int* [y_size + 1];
 
     for (int y = 0; y < y_size + 1; y ++) {
-        ground[y] = new int[x_size + 1];
+        map[y] = new int[x_size + 1];
         view[y] = new int[x_size + 1];
     }
 
     for (int i = 0; i < y_size + 1; i++) {
         for (int j = 0; j < x_size + 1; j++) {
-            ground[i][j] = 0;
+            map[i][j] = 0;
             view[i][j] = 0;
         }
     }
 }
 
 void Game::startGame() {
-    printGround(pos.getY() - 1, pos.getX() - 1);
+    printMap(pos.getY() - 1, pos.getX() - 1);
     printInfomationOfGame(MSG_DEFAULT);
 
     while (!gameEnded) {
@@ -73,7 +73,7 @@ void Game::startGame() {
     }
 }
 
-void Game::createNewGround(int startY, int startX) {
+void Game::createNewMap(int startY, int startX) {
     Position startPos = Position(startX, startY);
     int count_mine = numOfMinesweeper;
     srand(time(NULL));
@@ -87,7 +87,7 @@ void Game::createNewGround(int startY, int startX) {
             continue;
         }
 
-        if (ground[y][x] != -1) {
+        if (map[y][x] != -1) {
             Position srrStartPos[9] = {
                 Position(startX - 1, startY - 1), Position(startX - 1, startY), Position(startX - 1, startY + 1),
                 Position(startX,     startY - 1), startPos,                     Position(startX,     startY + 1),
@@ -103,7 +103,7 @@ void Game::createNewGround(int startY, int startX) {
             }
 
             if (!isCrrPosInSrrPos) {
-                ground[y][x] = GROUND_MINESWEEPER;
+                map[y][x] = MAP_MINESWEEPER;
                 posOfMinesweeper.push_back(crrPos);
 
                 Position srrMnswprPos[8] = {
@@ -116,10 +116,10 @@ void Game::createNewGround(int startY, int startX) {
                     if ((srrMnswpr.getX() < 0 || srrMnswpr.getX() > x_size) || (srrMnswpr.getY() < 0 || srrMnswpr.getY() > y_size)) {
                         continue;
                     }
-                    if (ground[srrMnswpr.getY()][srrMnswpr.getX()] == GROUND_MINESWEEPER || srrMnswpr == startPos) {
+                    if (map[srrMnswpr.getY()][srrMnswpr.getX()] == MAP_MINESWEEPER || srrMnswpr == startPos) {
                         continue;
                     }
-                    ground[srrMnswpr.getY()][srrMnswpr.getX()] += 1;
+                    map[srrMnswpr.getY()][srrMnswpr.getX()] += 1;
                 }
                 count_mine -= 1;
             }
@@ -127,7 +127,7 @@ void Game::createNewGround(int startY, int startX) {
     }
 }
 
-void Game::printGround(int y, int x) {
+void Game::printMap(int y, int x) {
     system("cls");
     string yNum = "     ";
 
@@ -164,32 +164,32 @@ void Game::printGround(int y, int x) {
 
         for (int j = 0; j < x_size + 1; j++) {
             if (x != -1 && y != -1 && x == j && y == i) {
-                result.append("\033[1m\033[7m"); // Replace forground color with background color
+                result.append("\033[1m\033[7m"); // Replace formap color with backmap color
             }
             switch (view[i][j]) {
                 case VIEW_UNVISIBLE :
                     result.append("¡á");
                     break;
                 case VIEW_VISIBLE :
-                    if (ground[i][j] == GROUND_VOID) {
+                    if (map[i][j] == MAP_VOID) {
                         result.append("\033[90m¡à\033[0m"); // Bright Black
                     }
                     else {
-                        if (ground[i][j] == GROUND_MINESWEEPER) {
+                        if (map[i][j] == MAP_MINESWEEPER) {
                             result.append("\033[31m¡Ü\033[0m"); // Red
                         }
                         else {
-                            switch (ground[i][j]) {
-                            case GROUND_HINT1: result.append("\033[96m"); break; // Bright Cyan
-                            case GROUND_HINT2: result.append("\033[94m"); break; // Bright Blue
-                            case GROUND_HINT3: result.append("\033[92m"); break; // Bright Green
-                            case GROUND_HINT4: result.append("\033[93m"); break; // Bright Yellow
-                            case GROUND_HINT5: result.append("\033[91m"); break; // Bright Red
-                            case GROUND_HINT6: result.append("\033[95m"); break; // Bright Magenta
-                            case GROUND_HINT7: result.append("\033[35m"); break; // Magenta
-                            case GROUND_HINT8: result.append("\033[97m"); break; // Bright White
+                            switch (map[i][j]) {
+                            case MAP_HINT1: result.append("\033[96m"); break; // Bright Cyan
+                            case MAP_HINT2: result.append("\033[94m"); break; // Bright Blue
+                            case MAP_HINT3: result.append("\033[92m"); break; // Bright Green
+                            case MAP_HINT4: result.append("\033[93m"); break; // Bright Yellow
+                            case MAP_HINT5: result.append("\033[91m"); break; // Bright Red
+                            case MAP_HINT6: result.append("\033[95m"); break; // Bright Magenta
+                            case MAP_HINT7: result.append("\033[35m"); break; // Magenta
+                            case MAP_HINT8: result.append("\033[97m"); break; // Bright White
                             }
-                            result.append(to_string(ground[i][j]) + "\033[0m");
+                            result.append(to_string(map[i][j]) + "\033[0m");
                         }
                     }
                     break;
@@ -259,7 +259,7 @@ void Game::movePoint(int vKey) {
         pos.moveY(1);
         break;
     }
-    didChangeGround();
+    didChangeMap();
 }
 
 void Game::keyDownEvent() {
@@ -295,27 +295,27 @@ void Game::keyDownEvent() {
     }
 }
 
-void Game::willChangeGround() {
+void Game::willChangeMap() {
     playCount += 1;
     if (playCount == 1) {
-        createNewGround(pos.getY() - 1, pos.getX() - 1);
+        createNewMap(pos.getY() - 1, pos.getX() - 1);
     }
 }
 
-void Game::didChangeGround() {
+void Game::didChangeMap() {
     if (isGameEnded()) {
         openAllTile(true);
-        printGround(pos.getY() - 1, pos.getX() - 1);
+        printMap(pos.getY() - 1, pos.getX() - 1);
         printInfomationOfGame(MSG_WIN);
     }
     else {
-        printGround(pos.getY() - 1, pos.getX() - 1);
+        printMap(pos.getY() - 1, pos.getX() - 1);
         printInfomationOfGame(MSG_DEFAULT);
     }
 }
 
 void Game::setFin() {
-    willChangeGround();
+    willChangeMap();
 
     switch (view[pos.getY() - 1][pos.getX() - 1]) {
     case VIEW_UNVISIBLE :
@@ -331,25 +331,25 @@ void Game::setFin() {
         break;
     }
 
-    didChangeGround();
+    didChangeMap();
 }
 
 void Game::openTile() {
-    willChangeGround();
+    willChangeMap();
 
     if (view[pos.getY() - 1][pos.getX() - 1] != VIEW_VISIBLE) {
         if (view[pos.getY() - 1][pos.getX() - 1] == VIEW_FLAG || view[pos.getY() - 1][pos.getX() - 1] == VIEW_QUESTION) {
             view[pos.getY() - 1][pos.getX() - 1] = VIEW_UNVISIBLE;
         }
         else {
-            switch (ground[pos.getY() - 1][pos.getX() - 1]) {
-            case GROUND_MINESWEEPER :
+            switch (map[pos.getY() - 1][pos.getX() - 1]) {
+            case MAP_MINESWEEPER :
                 openAllTile(false);
-                printGround();
+                printMap();
                 printInfomationOfGame(MSG_GAMEOVER);
                 gameEnded = true;
                 return;
-            case GROUND_VOID :
+            case MAP_VOID :
                 openVoidTile(pos.getY() - 1, pos.getX() - 1);
                 break;
             default :
@@ -361,13 +361,13 @@ void Game::openTile() {
         }
     }
 
-    didChangeGround();
+    didChangeMap();
 }
 
 void Game::openVoidTile(int y, int x) {
     view[y][x] = VIEW_VISIBLE;
 
-    if (ground[y][x] != GROUND_VOID) {
+    if (map[y][x] != MAP_VOID) {
         return;
     }
 
@@ -381,7 +381,7 @@ void Game::openVoidTile(int y, int x) {
         if ((srrPos.getY() > y_size || srrPos.getY() < 0) || (srrPos.getX() > x_size || srrPos.getX() < 0)) {
             continue;
         }
-        if (view[srrPos.getY()][srrPos.getX()] == VIEW_VISIBLE || ground[srrPos.getY()][srrPos.getX()] == GROUND_MINESWEEPER) {
+        if (view[srrPos.getY()][srrPos.getX()] == VIEW_VISIBLE || map[srrPos.getY()][srrPos.getX()] == MAP_MINESWEEPER) {
             continue;
         }
 
@@ -406,7 +406,7 @@ bool Game::isGameEnded() {
         for (int j = 0; j < x_size + 1; j++) {
             switch (view[i][j]) {
             case VIEW_UNVISIBLE: case VIEW_FLAG:
-                if (ground[i][j] != GROUND_MINESWEEPER) {
+                if (map[i][j] != MAP_MINESWEEPER) {
                     return false;
                 }
                 break;
@@ -419,9 +419,13 @@ bool Game::isGameEnded() {
 
 Game::~Game() {
     for (int y = 0; y < y_size + 1; y++) {
-        delete[] ground[y];
+        delete[] map[y];
         delete[] view[y];
     }
-    delete[] ground;
+    delete[] map;
     delete[] view;
 }
+
+/*
+
+*/
