@@ -1,7 +1,6 @@
 ﻿  Start.cpp
-C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(58,18): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(59,18): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(61,24): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(62,24): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(63,34): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(96,18): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(97,18): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(100,24): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\cinesweeper\Start.cpp(101,34): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   cinesweeper.vcxproj -> C:\Users\nolbo\OneDrive\문서\GitHub\cinesweeper\x64\Debug\cinesweeper.exe

@@ -235,6 +235,13 @@ void Game::printInfomationOfGame(int msgType) {
     cout << countMsg << rjust(timeMsg, " ", DEFAULT_LENGTH_OF_LINE - countMsg.length() + 2) << endl;
     cout << "Point: \033[1m\033[36m(" + rjust(to_string(pos.getX()), "0", 2) + ", " + rjust(to_string(pos.getY()), "0", 2) + ")\033[0m" << endl;
 
+    if (msgType == MSG_WIN || msgType == MSG_GAMEOVER) {
+        cout << string(DEFAULT_LENGTH_OF_LINE - 16, '=') << endl;
+        cout << "Start Screen " << rjust("\033[43m\033[30m[SpaceBar]\033[0m", " ", DEFAULT_LENGTH_OF_LINE - 15) << endl;
+        cout << "Restart      " << rjust("\033[44m[Enter]\033[0m", " ", DEFAULT_LENGTH_OF_LINE - 20) << endl;
+        cout << "Exit Game    " << rjust("\033[101m\033[30m[Esc]\033[0m", " ", DEFAULT_LENGTH_OF_LINE - 14) << endl;
+    }
+
     if (playCount == 0) {
         cout << string(DEFAULT_LENGTH_OF_LINE - 16, '=') << endl;
         cout << "Move      " << rjust("\033[44m[ก็]\033[0m \033[44m[กๆ]\033[0m \033[44m[ก่]\033[0m \033[44m[ก้]\033[0m", " ", DEFAULT_LENGTH_OF_LINE + 14) << endl;
