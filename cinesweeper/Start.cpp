@@ -30,7 +30,10 @@ void Start::keyDownEvent() {
 
         switch (key) {
         case 0x20: // Space
-            activeStartScrnKey = true;
+            if (!activeStartScrnKey) {
+                activeStartScrnKey = true;
+                printStartScreen();
+            }
             break;
         case 0x1B: // Esc
             startEnded = true;
@@ -191,9 +194,9 @@ float Start::getMinesweeperRatio() {
 
 void Start::startGame() {
     if (errMsg == "") {
+        activeStartScrnKey = false;
         Game game = Game(sizeOfMap.getX(), sizeOfMap.getY(), numOfMinesweeper);
         game.startGame();
-        activeStartScrnKey = false;
     }
 }
 
