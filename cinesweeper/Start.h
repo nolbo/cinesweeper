@@ -27,6 +27,8 @@ public:
 	Start();
 	void start();
 	void keyDownEvent();
+	void numberKeyInput(int num);
+	void backspaceInput();
 	void printStartScreen();
 	void setNumOfMinesweeper(int num);
 	void checkError();

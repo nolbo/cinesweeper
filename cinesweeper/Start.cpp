@@ -41,6 +41,14 @@ void Start::keyDownEvent() {
         case 0x0D: // Enter
             startGame();
             break;
+        case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: // Number (0~9)
+            numberKeyInput(key - 48);
+            printStartScreen();
+            break;
+        case 8: // Backspace
+            backspaceInput();
+            printStartScreen();
+            break;
         case 224: // Arrow Key
             if (activeStartScrnKey) {
                 switch (_getch()) {
@@ -96,8 +104,60 @@ void Start::keyDownEvent() {
     }
 }
 
+void Start::numberKeyInput(int num) {
+    int value;
+
+    switch (selectedControl.getY())
+    {
+    case CONTROL_WIDTH:
+        value = sizeOfMap.getX() * 10 + num;
+        if (value <= 70) {
+            sizeOfMap.setX(value);
+        }
+        break;
+    case CONTROL_HEIGHT:
+        value = sizeOfMap.getY() * 10 + num;
+        if (value <= 70) {
+            sizeOfMap.setY(value);
+        }
+        break;
+    case CONTROL_NUM_OF_MINESWEEPER:
+        setNumOfMinesweeper(numOfMinesweeper * 10 + num);
+        break;
+    default:
+        break;
+    }
+}
+
+void Start::backspaceInput() {
+    int value;
+
+    switch (selectedControl.getY())
+    {
+    case CONTROL_WIDTH:
+        value = sizeOfMap.getX() / 10;
+        if (value > -1) {
+            sizeOfMap.setX(value);
+        }
+        break;
+    case CONTROL_HEIGHT:
+        value = sizeOfMap.getY() / 10;
+        if (value > -1) {
+            sizeOfMap.setY(value);
+        }
+        break;
+    case CONTROL_NUM_OF_MINESWEEPER:
+        setNumOfMinesweeper(numOfMinesweeper / 10);
+        break;
+    default:
+        break;
+    }
+}
+
 void Start::printStartScreen() {
     system("cls");
+
+    checkError();
 
     float x_size = sizeOfMap.getX();
     float y_size = sizeOfMap.getY();
@@ -166,8 +226,7 @@ void Start::printStartScreen() {
 }
 
 void Start::setNumOfMinesweeper(int num) {
-    if (num > 0 && num < sizeOfMap.getX() * sizeOfMap.getY()) numOfMinesweeper = num;
-    checkError();
+    if (num > -1 && num < sizeOfMap.getX() * sizeOfMap.getY()) numOfMinesweeper = num;
 }
 
 void Start::checkError() {
