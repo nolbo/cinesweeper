@@ -30,6 +30,7 @@ class Game {
         int x_size;
         int y_size;
         int numOfMinesweeper;
+        int seed;
         int numOfFlag;
         int playCount;
         std::vector<Position> posOfMinesweeper;
@@ -40,7 +41,7 @@ class Game {
         Position pos;
 
     public:
-        Game(int y_size, int x_size, int numOfMinesweeper);
+        Game(int y_size, int x_size, int numOfMinesweeper, int seed);
         void createNewMap(int startY, int startX);
         void printMap(int y = -1, int x = -1);
         void printInfomationOfGame(int msgType);

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
+#include <time.h>
 #include <cmath>
 
 using namespace std;
@@ -12,7 +13,8 @@ Start::Start() {
     activeStartScrnKey = true;
     startEnded = false;
     numOfMinesweeper = 99;
-    selectedControl = Position(1, 3, 1, CONTROL_WIDTH);
+    seed = time(NULL);
+    selectedControl = Position(1, 4, 1, CONTROL_WIDTH);
     sizeOfMap = Position(70, 70, 30, 16);
 }
 
@@ -124,6 +126,9 @@ void Start::numberKeyInput(int num) {
     case CONTROL_NUM_OF_MINESWEEPER:
         setNumOfMinesweeper(numOfMinesweeper * 10 + num);
         break;
+    case CONTROL_SEED:
+        seed = seed * 10 + num;
+        break;
     default:
         break;
     }
@@ -148,6 +153,9 @@ void Start::backspaceInput() {
         break;
     case CONTROL_NUM_OF_MINESWEEPER:
         setNumOfMinesweeper(numOfMinesweeper / 10);
+        break;
+    case CONTROL_SEED:
+        seed = seed / 10;
         break;
     default:
         break;
@@ -176,16 +184,18 @@ void Start::printStartScreen() {
         (ratio_of_mnswpr < DIFFICULTY_HARD) ? "Normal" :
         (ratio_of_mnswpr < DIFFICULTY_CRAZY) ? "Hard" : "Crazy";
 
-    string scripts[3] = {
+    string scripts[4] = {
         "\033[1m\033[94mMap Width\033[0m   \033[90m|\033[0m ",
         "\033[1m\033[94mMap Height\033[0m  \033[90m|\033[0m ",
-        "\033[1m\033[94mMinesweeper\033[0m \033[90m|\033[0m "
+        "\033[1m\033[94mMinesweeper\033[0m \033[90m|\033[0m ",
+        "\033[1m\033[94mSeed\033[0m        \033[90m|\033[0m "
     };
 
-    string values[3] = {
+    string values[4] = {
         string("\033[96m").append(to_string(sizeOfMap.getX()) + "\033[0m "),
         string("\033[96m").append(to_string(sizeOfMap.getY()) + "\033[0m "),
-        string("\033[96m").append(to_string(numOfMinesweeper) + "\033[0m ")
+        string("\033[96m").append(to_string(numOfMinesweeper) + "\033[0m "),
+        string("\033[96m").append(to_string(seed) + "\033[0m ")
     };
 
     std::cout << fixed;
@@ -206,11 +216,13 @@ void Start::printStartScreen() {
             std::cout << string(22, ' ');
         }
         std::cout << " ¦¢ ";
-        if (i < 3) {
+        if (i < 4) {
             std::cout << scripts[i];
-            std::cout << ((i + 1 == selectedControl.getY()) ? "¢¸ \033[7m" : "");
+            std::cout << ((i + 1 == selectedControl.getY() && i + 1 < 4) ? "¢¸ " : "");
+            std::cout << ((i + 1 == selectedControl.getY()) ? "\033[7m" : "");
             std::cout << values[i];
-            std::cout << ((i + 1 == selectedControl.getY()) ? "\033[0m¢º " : "");
+            std::cout << ((i + 1 == selectedControl.getY()) ? "\033[0m" : "");
+            std::cout << ((i + 1 == selectedControl.getY() && i + 1 < 4) ? "¢º " : "");
         }
         if (i == 2) {
             std::cout << difficulty_color + "(" << ratio_of_mnswpr * 100 << "%)\033[0m";
@@ -254,7 +266,7 @@ float Start::getMinesweeperRatio() {
 void Start::startGame() {
     if (errMsg == "") {
         activeStartScrnKey = false;
-        Game game = Game(sizeOfMap.getX(), sizeOfMap.getY(), numOfMinesweeper);
+        Game game = Game(sizeOfMap.getX(), sizeOfMap.getY(), numOfMinesweeper, seed);
         game.startGame();
     }
 }

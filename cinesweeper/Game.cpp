@@ -36,11 +36,11 @@ string ljust(string srcStr, string fillStr, int width) {
     return (fillStr_length > 0) ? string("").append(srcStr).append(repeat_str(fillStr, fillStr_length)) : srcStr;
 }
 
-Game::Game(int _x_size, int _y_size, int _numOfMinesweeper) {
+Game::Game(int _x_size, int _y_size, int _numOfMinesweeper, int _seed) {
     x_size = _x_size - 1;
     y_size = _y_size - 1;
     numOfMinesweeper = _numOfMinesweeper;
-
+    seed = _seed;
     numOfFlag = 0;
     playCount = 0;
     startTime = time(NULL);
@@ -76,7 +76,7 @@ void Game::startGame() {
 void Game::createNewMap(int startY, int startX) {
     Position startPos = Position(startX, startY);
     int count_mine = numOfMinesweeper;
-    srand(time(NULL));
+    srand(seed);
 
     while (count_mine > 0) {
         Position crrPos = Position(rand() % (x_size + 1), rand() % (y_size + 1));

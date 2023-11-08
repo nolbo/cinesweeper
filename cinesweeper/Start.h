@@ -9,7 +9,7 @@ private:
 	static const int CONTROL_WIDTH = 1;
 	static const int CONTROL_HEIGHT = 2;
 	static const int CONTROL_NUM_OF_MINESWEEPER = 3;
-	static const int CONTROL_START_GAME = 4;
+	static const int CONTROL_SEED = 4;
 
 	static constexpr float DIFFICULTY_EASY   = 0.10f;
 	static constexpr float DIFFICULTY_NORMAL = 0.15f;
@@ -19,6 +19,7 @@ private:
 	bool activeStartScrnKey;
 	bool startEnded;
 	int numOfMinesweeper;
+	int seed;
 	std::string errMsg;
 	Position selectedControl;
 	Position sizeOfMap;
